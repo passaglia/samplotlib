@@ -1,2 +1,2 @@
 # samplot
-Utilies to help with python plotting
+Utilities to help with python plotting
