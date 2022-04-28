@@ -2,29 +2,9 @@ import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib
 
-#Colors
-ColorsOrangeRed = "#ff4500"
-ColorsRoyalBlue = "#4169e1"
-ColorsMediumSeaGreen = "#3CB371"
-ColorsMarcoPurple = "#2A2E8B"
-ColorsMarcoBlue = "#0099CC"
-ColorsMarcoGreen = "#00DD34"
-ColorsMarcoRed = "#CB0F28"
-ColorsMarcoPink="#f24a61"
-ColorsMarcoYellow = "#FFA500"
-ColorsSamBurntOrange= "#CC8400"
-ColorsSamLightRed="#E3112D"
-
-#width = 3.277
-width = 3.40457
-doublewidthtwocolumn = 7.05826
-doublewidthonecolumn = 6.50127
-middlewidth = (doublewidthonecolumn+width)/2
-
-#BGColor = '#FAFAFA'
-BGColor='#FDFDFE'
-
-widthToHeightratio = 1.618
+############################################
+## Script which sets Matplotlib RC params ##
+############################################
 
 def init_plotting(figsize=(6,4), fontsize=None, withAx = True, style=None):
 
@@ -52,6 +32,8 @@ def init_plotting(figsize=(6,4), fontsize=None, withAx = True, style=None):
     plt.rcParams['xtick.direction'] = 'in'
     plt.rcParams['ytick.direction'] = 'in'
 
+    #BGColor = '#FAFAFA'
+    BGColor='#FDFDFE'
     plt.rcParams['axes.facecolor'] = BGColor
     #plt.rcParams['axes.edgecolor'] = BGColor
     plt.rcParams['figure.facecolor'] = BGColor
@@ -119,6 +101,18 @@ def init_plotting(figsize=(6,4), fontsize=None, withAx = True, style=None):
         return fig
 
 
+################################################################
+## Script generates plots of fixed physical size  ##############
+################################################################
+
+#width = 3.277
+width = 3.40457
+doublewidthtwocolumn = 7.05826
+doublewidthonecolumn = 6.50127
+middlewidth = (doublewidthonecolumn+width)/2
+
+widthToHeightratio = 1.618
+
 pointToInches = 1/72.
 RightInches = 1 * pointToInches
 topInches = 1.5* pointToInches
@@ -182,6 +176,10 @@ def MakeDoubleWideDoubleAxVerticalFig(LeftInches=.48, BottomInches=.38, ratio=wi
     # combinedAx.set_yticklabels([])
     return fig, topAx, botAx, combinedAx
 
+################################################################
+## Random junk  ################################################
+################################################################
+
 def add_arrow(line, position=None, direction='right', size=15, color=None):
     """
     add an arrow to a line.
@@ -218,22 +216,6 @@ def add_arrow(line, position=None, direction='right', size=15, color=None):
 def tanh_step(leftfunction, rightfunction, location, width):
     stepper = lambda x: 0.5+0.5*np.tanh((x-location)/width)
     return lambda x: (1-stepper(x))*leftfunction(x) + rightfunction(x)*stepper(x)
-
-# import numpy as np
-# import matplotlib.pyplot as plt
-# import samplot
-# fig, ax = samplot.init_plotting((5,5), withAx=True)
-# leftfunction = lambda x: -x
-# rightfunction = lambda x: x**2
-# location = 2 
-# width = 1
-# interpolatedfunction = tanh_step(leftfunction, rightfunction, location, width)
-# x = np.linspace(-5, 8, 100)
-# ax.plot(x, leftfunction(x))
-# ax.plot(x, rightfunction(x))
-# ax.plot(x, interpolatedfunction(x))
-# fig.savefig('./test.pdf')
-# plt.close('all')
 
 from matplotlib.legend_handler import HandlerBase
 class legend_handler(HandlerBase):
@@ -318,15 +300,36 @@ def myLogFormat(y,pos):
     else:
         return r'$10^{' + '{:.0f}'.format(np.log10(y)) + '}$'
 
+########################################################################
+## Colors ##############################################################
+########################################################################
+
+ColorsOrangeRed = "#ff4500"
+ColorsRoyalBlue = "#4169e1"
+ColorsMediumSeaGreen = "#3CB371"
+ColorsMarcoPurple = "#2A2E8B"
+ColorsMarcoBlue = "#0099CC"
+ColorsMarcoGreen = "#00DD34"
+ColorsMarcoRed = "#CB0F28"
+ColorsMarcoPink="#f24a61"
+ColorsMarcoYellow = "#FFA500"
+ColorsSamBurntOrange= "#CC8400"
+ColorsSamLightRed="#E3112D"
+
+########################################################################
+## nice_colors module ##############################################################
+########################################################################
+
 """
 
 Module containing beautiful color schemes and some color utilities.
 
 Authors:
-    Giulia Longhi, gllonghi@yahoo.it (color schemes)
-    Marco Raveri, mraveri@uchicago.edu (code)
+    Giulia Longhi (color schemes)
+    Marco Raveri (code)
 
 """
+
 
 # ******************************************************************************
 
