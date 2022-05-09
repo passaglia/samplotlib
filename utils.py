@@ -83,19 +83,18 @@ def init_plotting(figsize=(6,4), fontsize=None, withAx = True, style=None):
     } 
     """
     
-    plt.rcParams['pgf.rcfonts'] = True
-    plt.rcParams["pgf.preamble"] =  plt.rcParams['text.latex.preamble']
+    # plt.rcParams['pgf.rcfonts'] = True
+    # plt.rcParams["pgf.preamble"] =  plt.rcParams['text.latex.preamble']
 
     fig = plt.figure(figsize=figsize)
-    ax = plt.gca()
-
-    if style == 'nyt':
-        ax.spines['right'].set_color('none')
-        ax.spines['top'].set_color('none')
-        ax.yaxis.grid(alpha=.5)
-        plt.rcParams['lines.linewidth'] = 2
 
     if withAx:
+        ax = plt.gca()
+        if style == 'nyt':
+            ax.spines['right'].set_color('none')
+            ax.spines['top'].set_color('none')
+            ax.yaxis.grid(alpha=.5)
+            plt.rcParams['lines.linewidth'] = 2
         return fig, ax
     else:
         return fig
