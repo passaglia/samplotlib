@@ -8,6 +8,7 @@ import matplotlib
 
 def init_plotting(figsize=(6,4), fontsize=None, withAx = True, style=None):
 
+    matplotlib.use('pgf')
     if fontsize is None:
         if style == 'nyt':
             fontsize=14
@@ -17,10 +18,14 @@ def init_plotting(figsize=(6,4), fontsize=None, withAx = True, style=None):
     plt.rcParams['figure.figsize'] = figsize
     plt.rcParams['font.size'] = fontsize
     #plt.rcParams['font.family'] = 'Times New Roman'
-    plt.rcParams['font.family'] = 'serif'
-    plt.rcParams['font.serif'] = 'Computer Modern Roman'
+    # plt.rcParams['font.family'] = 'serif'
+    # plt.rcParams['font.serif'] = 'Computer Modern Roman'
     # plt.rcParams['font.family'] = 'sans-serif'
     # plt.rcParams['font.family'] = 'Helvetica'
+    # plt.rcParams['font.sans-serif'] = 'Noto Sans CJK JP'
+    # plt.rcParams['font.serif'] = 'Noto Serif CJK JP'
+    plt.rcParams['font.family'] = ['Helvetica','Hiragino Maru Gothic Pro']
+
 
     plt.rcParams['axes.labelsize'] = plt.rcParams['font.size']
     plt.rcParams['axes.titlesize'] = 1.5*plt.rcParams['font.size']
@@ -61,10 +66,10 @@ def init_plotting(figsize=(6,4), fontsize=None, withAx = True, style=None):
     plt.rcParams['savefig.dpi'] = 400
     plt.rcParams['text.usetex'] = True
     plt.rcParams['text.latex.preamble'] =  r"""
+    \usepackage{xeCJK}
+    \setCJKmainfont{Hiragino Maru Gothic Pro}
     \usepackage{xcolor}
     \usepackage{amsmath}
-    \def\yen{{\setbox0=\hbox{Y}Y\kern-.97\wd0\vbox{\hrule height.1ex
-    width.98\wd0\kern.33ex\hrule height.1ex width.98\wd0\kern.45ex}}}    
     \usepackage[utf8]{inputenc}
     \usepackage{newunicodechar}
     \newunicodechar{￥}{\textyen}
@@ -83,8 +88,8 @@ def init_plotting(figsize=(6,4), fontsize=None, withAx = True, style=None):
     } 
     """
     
-    # plt.rcParams['pgf.rcfonts'] = True
-    # plt.rcParams["pgf.preamble"] =  plt.rcParams['text.latex.preamble']
+    plt.rcParams['pgf.rcfonts'] = True
+    plt.rcParams["pgf.preamble"] =  plt.rcParams['text.latex.preamble']
 
     fig = plt.figure(figsize=figsize)
 
@@ -95,6 +100,7 @@ def init_plotting(figsize=(6,4), fontsize=None, withAx = True, style=None):
             ax.spines['top'].set_color('none')
             ax.yaxis.grid(alpha=.5)
             plt.rcParams['lines.linewidth'] = 2
+            ax.set_axisbelow(True)
         return fig, ax
     else:
         return fig
