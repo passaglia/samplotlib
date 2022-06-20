@@ -6,12 +6,12 @@ import matplotlib
 ## Script which sets Matplotlib RC params ##
 ############################################
 
-def init_plotting(figsize=(6,4), fontsize=None, withAx = True, style=None):
+def init_plotting(figsize=(6,4), fontsize=None, withAx = True, style=None, dpi=400):
 
     matplotlib.use('pgf')
     if fontsize is None:
-        if style == 'nyt':
-            fontsize=14
+        if (style == 'nyt') or (style=='map'):
+            fontsize=12
         else:
             fontsize=10
 
@@ -21,7 +21,6 @@ def init_plotting(figsize=(6,4), fontsize=None, withAx = True, style=None):
     # plt.rcParams['font.family'] = 'serif'
     # plt.rcParams['font.serif'] = 'Computer Modern Roman'
     # plt.rcParams['font.family'] = 'sans-serif'
-    # plt.rcParams['font.family'] = 'Helvetica'
     # plt.rcParams['font.sans-serif'] = 'Noto Sans CJK JP'
     # plt.rcParams['font.serif'] = 'Noto Serif CJK JP'
     plt.rcParams['font.family'] = ['Helvetica','Hiragino Maru Gothic Pro']
@@ -40,11 +39,8 @@ def init_plotting(figsize=(6,4), fontsize=None, withAx = True, style=None):
     #BGColor = '#FAFAFA'
     BGColor='#FDFDFE'
     plt.rcParams['axes.facecolor'] = BGColor
-    #plt.rcParams['axes.edgecolor'] = BGColor
     plt.rcParams['figure.facecolor'] = BGColor
-    #plt.rcParams['figure.edgecolor'] = BGColor
     plt.rcParams['savefig.facecolor'] = BGColor
-    #plt.rcParams['figure.edgecolor'] = BGColor
 
     plt.rcParams['xtick.major.size'] = 3
     plt.rcParams['xtick.minor.size'] = plt.rcParams['xtick.major.size']/widthToHeightratio
@@ -63,7 +59,7 @@ def init_plotting(figsize=(6,4), fontsize=None, withAx = True, style=None):
     plt.rcParams['axes.linewidth'] = 1
     plt.rcParams['lines.linewidth'] = 1
     plt.rcParams['figure.autolayout'] = True
-    plt.rcParams['savefig.dpi'] = 400
+    plt.rcParams['savefig.dpi'] = dpi
     plt.rcParams['text.usetex'] = True
     plt.rcParams['text.latex.preamble'] =  r"""
     \usepackage{xeCJK}
@@ -96,11 +92,39 @@ def init_plotting(figsize=(6,4), fontsize=None, withAx = True, style=None):
     if withAx:
         ax = plt.gca()
         if style == 'nyt':
+
+            #alpha = .75
+            color_rgb = [.6,.6,.6]
+
+            color_rgb = [.85,.85,.85]
+            #color_hex = matplotlib.colors.to_hex(color_rgb,keep_alpha=True)
+
+            plt.rcParams['axes.edgecolor'] = color_rgb
+            plt.rcParams['figure.edgecolor'] = color_rgb
+            plt.rcParams['figure.edgecolor'] = color_rgb
+            ax.tick_params(axis='both', 
+            color=color_rgb)
+            #,labelcolor=color_rgb
+
+            # plt.rcParams['axes.edgecolor'] = color_hex
+            # plt.rcParams['figure.edgecolor'] = color_hex
+            # plt.rcParams['figure.edgecolor'] = color_hex
+            # ax.tick_params(axis='both', 
+            # color=color_hex,
+            # labelcolor=color_hex)
+
+
+            ax.spines['left'].set_color('none')
             ax.spines['right'].set_color('none')
             ax.spines['top'].set_color('none')
-            ax.yaxis.grid(alpha=.5)
+            #ax.title.set_color(color_rgb)
+            #ax.yaxis.grid(color=color_rgb)
+            ax.yaxis.grid(color = [.85,.85,.85])
             plt.rcParams['lines.linewidth'] = 2
             ax.set_axisbelow(True)
+        if style == 'map':
+            plt.axis('off')
+            plt.rcParams['lines.linewidth'] = 2
         return fig, ax
     else:
         return fig
