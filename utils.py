@@ -63,7 +63,11 @@ def init_plotting(figsize=(6,4), fontsize=None, withAx = True, style=None, dpi=4
     plt.rcParams['text.usetex'] = True
     plt.rcParams['text.latex.preamble'] =  r"""
     \usepackage{xeCJK}
-    \setCJKmainfont{Hiragino Maru Gothic Pro}
+    %\setCJKmainfont{Hiragino Maru Gothic Pro}
+    %\setCJKmainfont[Scale=0.9]{Hiragino Mincho Pro}
+    %\setCJKmainfont{Hiragino Sans}
+    \setCJKmainfont{Hiragino Kaku Gothic Pro}
+    
     \usepackage{xcolor}
     \usepackage{amsmath}
     \usepackage[utf8]{inputenc}
