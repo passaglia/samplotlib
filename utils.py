@@ -6,8 +6,9 @@ import matplotlib
 ## Script which sets Matplotlib RC params ##
 ############################################
 
-def init_plotting(figsize=(6,4), fontsize=None, withAx = True, style=None, dpi=400):
 
+def init_plotting(figsize=(6,4), fontsize=None, withAx = True, style=None, dpi=400):
+    # https://matplotlib.org/stable/tutorials/introductory/customizing.html#customizing-with-matplotlibrc-files
     matplotlib.use('pgf')
     if fontsize is None:
         if (style == 'nyt') or (style=='map'):
@@ -17,14 +18,10 @@ def init_plotting(figsize=(6,4), fontsize=None, withAx = True, style=None, dpi=4
 
     plt.rcParams['figure.figsize'] = figsize
     plt.rcParams['font.size'] = fontsize
-    #plt.rcParams['font.family'] = 'Times New Roman'
-    # plt.rcParams['font.family'] = 'serif'
-    # plt.rcParams['font.serif'] = 'Computer Modern Roman'
-    # plt.rcParams['font.family'] = 'sans-serif'
+    #plt.rcParams['font.serif'] = 'Computer Modern Roman'
     # plt.rcParams['font.sans-serif'] = 'Noto Sans CJK JP'
     # plt.rcParams['font.serif'] = 'Noto Serif CJK JP'
-    plt.rcParams['font.family'] = ['Helvetica','Hiragino Maru Gothic Pro']
-
+    #plt.rcParams['font.family'] = ['Helvetica','Hiragino Maru Gothic Pro']
 
     plt.rcParams['axes.labelsize'] = plt.rcParams['font.size']
     plt.rcParams['axes.titlesize'] = 1.5*plt.rcParams['font.size']
@@ -91,23 +88,25 @@ def init_plotting(figsize=(6,4), fontsize=None, withAx = True, style=None, dpi=4
     plt.rcParams['pgf.rcfonts'] = True
     plt.rcParams["pgf.preamble"] =  plt.rcParams['text.latex.preamble']
 
+    from cycler import cycler
+    plt.rcParams["axes.prop_cycle"] = cycler('color', [np.array([145,49,41])/255, np.array([34,65,111])/255, np.array([120,186,117])/255, np.array([233,180,99])/255, '#9467bd', '#8c564b', '#e377c2', '#7f7f7f', '#bcbd22', '#17becf'])
+
     fig = plt.figure(figsize=figsize)
 
     if withAx:
         ax = plt.gca()
         if style == 'nyt':
 
+            # plt.rcParams['font.family'] = ['NYTCheltenham','Hiragino Maru Gothic Pro']
+            plt.rcParams['font.family'] = 'NYTFranklin'
             #alpha = .75
             color_rgb = [.6,.6,.6]
-
-            color_rgb = [.85,.85,.85]
+            grid_rgb =  color_rgb
             #color_hex = matplotlib.colors.to_hex(color_rgb,keep_alpha=True)
 
             plt.rcParams['axes.edgecolor'] = color_rgb
             plt.rcParams['figure.edgecolor'] = color_rgb
-            plt.rcParams['figure.edgecolor'] = color_rgb
-            ax.tick_params(axis='both', 
-            color=color_rgb)
+            #ax.tick_params(axis='both', color=color_rgb)
             #,labelcolor=color_rgb
 
             # plt.rcParams['axes.edgecolor'] = color_hex
@@ -117,13 +116,13 @@ def init_plotting(figsize=(6,4), fontsize=None, withAx = True, style=None, dpi=4
             # color=color_hex,
             # labelcolor=color_hex)
 
-
+            # color=color_hex,
             ax.spines['left'].set_color('none')
             ax.spines['right'].set_color('none')
             ax.spines['top'].set_color('none')
+            ax.spines['bottom'].set_color(color_rgb)
             #ax.title.set_color(color_rgb)
-            #ax.yaxis.grid(color=color_rgb)
-            ax.yaxis.grid(color = [.85,.85,.85])
+            ax.yaxis.grid(color = grid_rgb,linestyle = (0,(0.2,3)), dash_capstyle = 'round')
             plt.rcParams['lines.linewidth'] = 2
             ax.set_axisbelow(True)
         if style == 'map':
@@ -292,9 +291,6 @@ class legend_handler(HandlerBase):
 
 import matplotlib.text as mtext
 import matplotlib.transforms as mtransforms
-
-#ra = RotationAwareAnnotation2("test label", xy=(.5,.5), p=(.6,.6), ax=ax,
-#                             xytext=(2,-1), textcoords="offset points", va="top")
 class RotationAwareAnnotation2(mtext.Annotation):
     def __init__(self, s, xy, p, pa=None, ax=None, **kwargs):
         self.ax = ax or plt.gca()

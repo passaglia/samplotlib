@@ -1,0 +1,29 @@
+\documentclass[fontsize=10]{article}
+\usepackage{xeCJK}
+%\setCJKmainfont{Hiragino Maru Gothic Pro}
+%\setCJKmainfont[Scale=0.9]{Hiragino Mincho Pro}
+%\setCJKmainfont{Hiragino Sans}
+\setCJKmainfont{Hiragino Kaku Gothic Pro}
+
+\usepackage{xcolor}
+\usepackage{amsmath}
+\usepackage[utf8]{inputenc}
+\usepackage{newunicodechar}
+\newunicodechar{￥}{\textyen}
+\DeclareTextCommandDefault{\textyen}{%
+\vphantom{Y}%
+{\ooalign{Y\cr\hidewidth\yenbars\hidewidth\cr}}%
+}
+
+\newcommand{\yenbars}{%
+\vbox{
+    \hrule height.1ex width.4em
+    \kern.15ex
+    \hrule height.1ex width.4em
+    \kern.3ex
+}%
+} 
+\setmainfont{NYTFranklin Light}
+\begin{document}
+test
+\end{document}
