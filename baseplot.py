@@ -2,6 +2,8 @@ import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib
 
+plt.set_loglevel(("error")) ## in order to ignore the "Ignoring unknown font" warning in backend_pgf.py
+
 ############################################
 ## Script which sets Matplotlib RC params ##
 ############################################
