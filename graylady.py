@@ -11,22 +11,11 @@ class GrayLady(BasePlot):
 
         self.copyrightedFonts = copyrightedFonts
 
+        grey = [0.55,0.55,0.55]
         if self.copyrightedFonts:
-            super().__init__(figsize, fontsize, dpi,baseFont = 'NYTFranklin Light',titleFont = 'NYTCheltenham',textFont =  'NYTImperial')
+            super().__init__(figsize, fontsize, dpi,baseFont = 'NYTFranklin Light',titleFont = 'NYTCheltenham',textFont =  'NYTImperial',grey=grey)
         else:
-            super().__init__(figsize, fontsize, dpi,baseFont = 'Helvetica',titleFont = 'Roboto Slab',textFont =  'Georgia')
-
-        ## For NYTFranklin Light to work, need to add the following to .matplotlib/fontlist-v330.json 
-        # {
-        #   "fname": "/Users/sam/Library/Fonts/franklin-normal-300.ttf",
-        #   "name": "NYTFranklin Light",
-        #   "style": "normal",
-        #   "variant": "normal",
-        #   "weight": 300,
-        #   "stretch": "normal",
-        #   "size": "scalable",
-        #   "__class__": "FontEntry"
-        # },
+            super().__init__(figsize, fontsize, dpi,baseFont = 'Helvetica',titleFont = 'Roboto Slab',textFont =  'Georgia',grey=grey)
 
         self.graylady_rc()
 
@@ -75,79 +64,16 @@ class GrayLady(BasePlot):
         plt.rcParams['axes.edgecolor'] = self.grey
         plt.rcParams['figure.edgecolor'] = self.grey
 
-    def set_xYear(self,ax):
-        yearformatter = matplotlib.dates.AutoDateFormatter(matplotlib.dates.AutoDateLocator())
-        def my_format_function(x, pos=None):
-            x = matplotlib.dates.num2date(x)
-            fmt = r'%Y'
-            label = r"`"+x.strftime(fmt).removeprefix("20")
-            return label
-        yearformatter.scaled[365.] = my_format_function
-        ax.xaxis.set_major_formatter(yearformatter)
-        return ax
 
-    def set_xQuarter(self, ax):
-        formatter = matplotlib.dates.AutoDateFormatter(matplotlib.dates.AutoDateLocator())
-        def my_format_function(x, pos=None):
-            x = matplotlib.dates.num2date(x)
-            print(x.month)
-            fmt = r'%Y %m'
-            label = r'`'+x.strftime(fmt).removeprefix('20')
-            return label
-        formatter.scaled[365.] = my_format_function
-        ax.xaxis.set_major_formatter(formatter)
-        return ax
-
-    def set_xMonth(self,ax):
-        formatter = matplotlib.dates.AutoDateFormatter(matplotlib.dates.MonthLocator())
-        def my_format_function(x, pos=None):
-            x = matplotlib.dates.num2date(x)
-            fmt = r'%B'
-            label = x.strftime(fmt)
-            return label
-        formatter.scaled[30.] = my_format_function
-        ax.xaxis.set_major_formatter(formatter)
-        return ax
-
-    def set_yLabel(self,ax, yLabel='', currency=''):
-        def yformatter(x,pos=None):
-            nlabels = len(ax.yaxis.get_ticklabels())
-            #print(x,pos)
-            if x == 0:
-                label = r'0'
-            else:
-                label =  r'{0:.1f}'.format(x).removesuffix('.0')
-            if pos == nlabels-2:
-                return  currency + label + yLabel
-            else: 
-                return label
-        ax.yaxis.set_major_formatter(FuncFormatter(yformatter))
-        return ax
-
-    def set_yTickLabels(self,ax):
-        for label in ax.yaxis.get_ticklabels():
-            label.set_verticalalignment('bottom')
-            label.set_horizontalalignment('left')
-
-        # Create offset transform by fontsize/3 points in y direction
-        dx = 0/72.; dy = (self.fontsize/3)/72. 
-        offset = matplotlib.transforms.ScaledTranslation(dx, dy, ax.figure.dpi_scale_trans)
-        # apply offset transform to all y ticklabels.
-        for label in ax.yaxis.get_majorticklabels():
-            label.set_transform(label.get_transform() + offset)
-        
-        return ax
-
-    def set_titleSubtitle(self,ax,title,subtitle=None):
-        if title is not None:
-            if subtitle is None:
-                ax.figure.suptitle(title, x=0,y=1.1, fontsize=self.titlesize,ha='left',va='bottom', transform=ax.transAxes,fontdict={'family':self.titleFont})
-            else:
-                subtitle_nlines = 1 + subtitle.count('\n')
-                lineheight = self.fontsize
-                gap = 2/3*self.fontsize
-                pad = 1.5*self.fontsize
-
-                ax.set_title(subtitle, x=0., y=1.0, fontsize=self.subtitlesize,ha='left',va='bottom', fontdict={'family':self.textFont}, wrap=True, pad=pad)
-
-                ax.annotate(title, (0,1), (0, pad+gap+subtitle_nlines*lineheight), fontsize=self.titlesize,xycoords='axes fraction', textcoords='offset points', va='bottom', ha='left', family=self.titleFont)
+## OBSOLETE
+## For NYTFranklin Light to work add the following to .matplotlib/fontlist-v330.json 
+# {
+#   "fname": "/Users/sam/Library/Fonts/franklin-normal-300.ttf",
+#   "name": "NYTFranklin Light",
+#   "style": "normal",
+#   "variant": "normal",
+#   "weight": 300,
+#   "stretch": "normal",
+#   "size": "scalable",
+#   "__class__": "FontEntry"
+# },

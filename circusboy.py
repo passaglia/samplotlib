@@ -7,10 +7,10 @@ import numpy as np
 
 class CircusBoy(BasePlot):
 
-    def __init__(self, figsize=(6,4), fontsize=12, dpi=400, baseFont=['Helvetica','Hiragino Maru Gothic Pro'],titleFont = 'Roboto Slab',textFont = 'Georgia', grey=[0.55,0.55,0.55]):
+    def __init__(self, figsize=(6,4), fontsize=12, dpi=400, baseFont='Helvetica', cjkFont='Hiragino Maru Gothic Pro', titleFont = 'Roboto Slab',textFont = 'Georgia', grey=[0.55,0.55,0.55]):
 
         super().__init__(figsize=figsize, fontsize=fontsize, dpi=dpi,
-        baseFont=baseFont,titleFont =titleFont,textFont = textFont, grey=grey)
+        baseFont=baseFont,cjkFont=cjkFont, titleFont =titleFont,textFont = textFont, grey=grey)
         
         self.circusboy_rc()
 
@@ -60,81 +60,3 @@ class CircusBoy(BasePlot):
 
         plt.rcParams['axes.edgecolor'] = self.grey
         plt.rcParams['figure.edgecolor'] = self.grey
-
-    def set_xYear(self,ax):
-        yearformatter = matplotlib.dates.AutoDateFormatter(matplotlib.dates.AutoDateLocator())
-        def my_format_function(x, pos=None):
-            x = matplotlib.dates.num2date(x)
-            fmt = r'%Y'
-            label = r"`"+x.strftime(fmt).removeprefix("20")
-            return label
-        yearformatter.scaled[365.] = my_format_function
-        ax.xaxis.set_major_formatter(yearformatter)
-        return ax
-
-    def set_xQuarter(self, ax):
-        formatter = matplotlib.dates.AutoDateFormatter(matplotlib.dates.AutoDateLocator())
-        def my_format_function(x, pos=None):
-            x = matplotlib.dates.num2date(x)
-            print(x.month)
-            fmt = r'%Y %m'
-            label = r'`'+x.strftime(fmt).removeprefix('20')
-            return label
-        formatter.scaled[365.] = my_format_function
-        ax.xaxis.set_major_formatter(formatter)
-        return ax
-
-    def set_xMonth(self,ax):
-        formatter = matplotlib.dates.AutoDateFormatter(matplotlib.dates.MonthLocator())
-        def my_format_function(x, pos=None):
-            x = matplotlib.dates.num2date(x)
-            fmt = r'%B'
-            label = x.strftime(fmt)
-            return label
-        formatter.scaled[30.] = my_format_function
-        ax.xaxis.set_major_formatter(formatter)
-        return ax
-
-    def set_yLabel(self,ax, yLabel='', currency=''):
-        def yformatter(x,pos=None):
-            nlabels = len(ax.yaxis.get_ticklabels())
-            #print(x,pos)
-            if x == 0:
-                label = r'0'
-            else:
-                label =  r'{0:.1f}'.format(x).removesuffix('.0')
-            if pos == nlabels-2:
-                return  currency + label + yLabel
-            else: 
-                return label
-        ax.yaxis.set_major_formatter(FuncFormatter(yformatter))
-        return ax
-
-    def set_yTickLabels(self,ax):
-        for label in ax.yaxis.get_ticklabels():
-            label.set_verticalalignment('bottom')
-            label.set_horizontalalignment('left')
-
-        # Create offset transform by fontsize/3 points in y direction
-        dx = 0/72.; dy = (self.fontsize/3)/72. 
-        offset = matplotlib.transforms.ScaledTranslation(dx, dy, ax.figure.dpi_scale_trans)
-        # apply offset transform to all y ticklabels.
-        for label in ax.yaxis.get_majorticklabels():
-            label.set_transform(label.get_transform() + offset)
-        
-        return ax
-
-    def set_titleSubtitle(self,ax,title,subtitle=None):
-        if title is not None:
-            if subtitle is None:
-                ax.figure.suptitle(title, x=0,y=1.1, fontsize=self.titlesize,ha='left',va='bottom', transform=ax.transAxes,fontdict={'family':self.titleFont})
-            else:
-                subtitle_nlines = 1 + subtitle.count('\n')
-                lineheight = self.fontsize
-                gap = 2/3*self.fontsize
-                pad = 1.5*self.fontsize
-
-                ax.set_title(subtitle, x=0., y=1.0, fontsize=self.subtitlesize,ha='left',va='bottom', fontdict={'family':self.textFont}, wrap=True, pad=pad)
-
-                ax.annotate(title, (0,1), (0, pad+gap+subtitle_nlines*lineheight), fontsize=self.titlesize,xycoords='axes fraction', textcoords='offset points', va='bottom', ha='left', family=self.titleFont)
-
