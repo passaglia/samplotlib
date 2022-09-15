@@ -127,7 +127,13 @@ class BasePlot():
         '#bcbd22', '#17becf'])
 
     def stringWithFont(self, font, string):
-        return r'\stringWithFont{%s}{%s}' % (font, string)
+        split = string.split('\n')
+
+        s = r'\stringWithFont{%s}{%s}' % (font, split[0])
+        for i in range(len(split)-1):
+            s += '\n' + r'\stringWithFont{%s}{%s}' % (font, split[i+1])
+
+        return s
 
     def set_byline(self,ax, byline, pad=0):
         #ax.annotate(byline, (1,0), (0, -2.5*self.fontsize-pad), xycoords='axes fraction', textcoords='offset points', va='top', ha='right', family=self.textFont, fontsize=self.fontsize-2)
@@ -156,10 +162,8 @@ class BasePlot():
                 gap = 2/3*self.fontsize
                 pad = 1.5*self.fontsize
 
-                # ax.set_title(subtitle, x=0., y=1.0, fontsize=self.subtitlesize,ha='left',va='bottom', fontdict={'family':self.textFont}, wrap=True, pad=pad)
                 ax.set_title(self.stringWithFont(self.textFont, subtitle), x=0., y=1.0, fontsize=self.subtitlesize,ha='left',va='bottom', wrap=True, pad=pad)
 
-                # ax.annotate(title, (0,1), (0, pad+gap+subtitle_nlines*lineheight), fontsize=self.titlesize,xycoords='axes fraction', textcoords='offset points', va='bottom', ha='left', family=self.titleFont)
                 ax.annotate(self.stringWithFont(self.titleFont, title), (0,1), (0, pad+gap+subtitle_nlines*lineheight), fontsize=self.titlesize,xycoords='axes fraction', textcoords='offset points', va='bottom', ha='left')
 
 
