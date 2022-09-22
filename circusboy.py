@@ -27,6 +27,7 @@ class CircusBoy(BasePlot):
             ax.spines['bottom'].set_color(self.grey)
             ax.yaxis.grid(color = self.grey,linestyle = (0,(0.2,3)), dash_capstyle = 'round')
             ax.set_axisbelow(True)
+            self.set_yTickLabels(ax)
             return self._fig, self._ax
         else:
             return self._fig
