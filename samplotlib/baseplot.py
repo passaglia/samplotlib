@@ -180,7 +180,6 @@ class BasePlot:
 
     def set_source(self, ax, source, loc="inside", pad=0):
         if loc == "inside":
-            # sourcelabel = ax.text(x=0, y=0,s=source, transform=ax.transAxes, ha='left', va='baseline',color=self.grey, fontdict={'family':self.textFont})
             sourcelabel = ax.text(
                 x=0,
                 y=0,
@@ -197,7 +196,6 @@ class BasePlot:
             )
             sourcelabel.set_transform(sourcelabel.get_transform() + offset)
         elif loc == "outside":
-            # ax.annotate(source, (0,0), (0, -2.5*self.fontsize-pad), xycoords='axes fraction', textcoords='offset points',color=self.grey, va='top', ha='left', family=self.textFont, fontsize=self.fontsize-2)
             ax.annotate(
                 self.stringWithFont(self.textFont, source),
                 (0, 0),
