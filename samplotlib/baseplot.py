@@ -208,7 +208,11 @@ class BasePlot:
                 fontsize=self.fontsize - 2,
             )
 
-    def set_title(self, ax, title, subtitle=None, pad=None, gap=None):
+    def set_title(self, ax, title, subtitle=None, pad=None, gap=None, titlesize=None, subtitlesize=None):
+        if titlesize is None:
+            titlesize = self.titlesize
+        if subtitlesize is None:
+            subtitlesize = self.subtitlesize
         if pad is None:
             pad = 1.5 * self.fontsize  ## pad is the spacing between subtitle and axis
         if gap is None:
@@ -222,7 +226,7 @@ class BasePlot:
                     self.stringWithFont(self.titleFont, title),
                     x=0,
                     y=1.1,
-                    fontsize=self.titlesize,
+                    fontsize=titlesize,
                     ha="left",
                     va="bottom",
                     transform=ax.transAxes,
@@ -235,7 +239,7 @@ class BasePlot:
                     self.stringWithFont(self.textFont, subtitle),
                     x=0.0,
                     y=1.0,
-                    fontsize=self.subtitlesize,
+                    fontsize=subtitlesize,
                     ha="left",
                     va="bottom",
                     wrap=True,
@@ -246,7 +250,7 @@ class BasePlot:
                     self.stringWithFont(self.titleFont, title),
                     (0, 1),
                     (0, pad + gap + subtitle_nlines * lineheight),
-                    fontsize=self.titlesize,
+                    fontsize=titlesize,
                     xycoords="axes fraction",
                     textcoords="offset points",
                     va="bottom",
@@ -312,14 +316,14 @@ class BasePlot:
         ax.yaxis.set_major_formatter(matplotlib.ticker.FuncFormatter(yformatter))
         return ax
 
-    def set_yTickLabels(self, ax):
+    def set_yTickLabels(self, ax, xoffset=0, yoffset=0):
         for label in ax.yaxis.get_ticklabels():
             label.set_verticalalignment("bottom")
             label.set_horizontalalignment("left")
 
         # Create offset transform by fontsize/3 points in y direction
-        dx = 0 / 72.0
-        dy = (self.fontsize / 3) / 72.0
+        dx = xoffset / 72.0
+        dy = (self.fontsize/3 + yoffset) / 72.0
         offset = matplotlib.transforms.ScaledTranslation(
             dx, dy, ax.figure.dpi_scale_trans
         )
